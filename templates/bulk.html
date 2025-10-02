@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExoLens - Bulk Prediction</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #ffffff;
+    min-height: 100vh;
+    font-family: "Space Grotesk", sans-serif;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+h2, h3 {
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+.form-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin: auto;
+    max-width: 600px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    margin-top: 30px;
+}
+
+.form-label {
+    color: #ffd700;
+    font-weight: 500;
+}
+
+.form-control {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ffffff;
+}
+
+.form-control:focus {
+    background: rgba(255,255,255,0.15);
+    border-color: #ffd700;
+    box-shadow: 0 0 6px rgba(255,215,0,0.5);
+}
+
+.btn-custom {
+    font-size: 1rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-custom:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.5);
+}
+
+.results-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 1rem;
+    margin-top: 2rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    max-width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    width: 100%;
+    font-size: 0.75rem;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 0.25rem 0.4rem;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+table th {
+    background: transparent !important;
+    color: white !important;
+    font-size: 0.8rem;
+}
+
+table td {
+    background: transparent !important;
+    color: white !important;
+}
+
+table tr:hover td {
+    background: rgba(255, 215, 0, 0.1) !important;
+    transition: background 0.3s !important;
+}
+
+/* Hide unnecessary columns */
+table th:nth-child(6),
+table td:nth-child(6),
+table th:nth-child(7),
+table td:nth-child(7),
+table th:nth-child(9),
+table td:nth-child(9),
+table th:nth-child(10),
+table td:nth-child(10),
+table th:nth-child(11),
+table td:nth-child(11) {
+    display: none;
+}
+
+table td:nth-child(13){
+    background: #ffd700 !important;
+    color: #000 !important;
+    font-weight: 600 !important;
+}
+
+.planet-btn {
+    background: #ffd700;
+    color: #000;
+    border: none;
+    border-radius: 20px;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.planet-btn:hover:not(:disabled) {
+    background: #ffbf00;
+    transform: scale(1.05);
+}
+
+.planet-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 0.65rem;
+    }
+    table th, table td {
+        padding: 0.2rem;
+    }
+}
+</style>
+</head>
+<body>
+<h2>📂 Bulk CSV Prediction</h2>
+
+<div class="form-card">
+    <form method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="file" class="form-label">Upload CSV File</label>
+            <input type="file" name="file" class="form-control" accept=".csv" required>
+            <a href="/csv-guide" style="float: right; margin-top: 5px; background: transparent; border: 1px solid #ffbf00; color: #fff; font-size: 13px; border-radius: 5px; padding: 5px 8px; text-decoration: none;">CSV Guide</a>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-warning btn-custom" style="margin-left: 65px; margin-top: 20px;">
+                <i class="fa-solid fa-upload"></i> Upload & Predict
+            </button>
+        </div>
+    </form>
+</div>
+
+{% if tables %}
+<!-- Loading Spinner -->
+<div id="loading-spinner" class="text-center" style="margin-top:2rem;">
+    <div class="spinner-border text-warning" role="status" style="width:3rem; height:3rem;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p style="margin-top:10px; font-size:1.1rem; color:#ffd700; margin-bottom: 100px;">Preparing your results...</p>
+</div>
+
+<!-- Hidden Results (show after 3s) -->
+<div class="results-card" id="results-card" style="display:none;">
+    <h3 class="text-center">Prediction Results</h3>
+    <a href="#" id="download-csv" style="float: right; margin: 5px 0; background: transparent; border: 1px solid #ffbf00; color: #fff; font-size: 13px; padding: 5px 8px; text-decoration: none;">Download as CSV</a>
+    {{ tables|safe }}
+</div>
+{% endif %}
+
+<footer>
+    &copy; 2025 ExoLens. All rights reserved.
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const resultsCard = document.getElementById("results-card");
+    const loadingSpinner = document.getElementById("loading-spinner");
+    const downloadBtn = document.getElementById("download-csv");
+
+    if (resultsCard) {
+        setTimeout(() => {
+            if (loadingSpinner) loadingSpinner.style.display = "none";
+            resultsCard.style.display = "block";
+            resultsCard.style.opacity = 0;
+            resultsCard.style.transition = "opacity 0.8s ease-in-out";
+            setTimeout(() => resultsCard.style.opacity = 1, 50);
+
+            const table = resultsCard.querySelector("table");
+            if (table) {
+                // Add header cell for Planet View
+                const headerRow = table.querySelector("tr");
+                if (headerRow) {
+                    const th = document.createElement("th");
+                    th.textContent = "Planet View";
+                    headerRow.appendChild(th);
+                }
+
+                // Add buttons for each row
+                const rows = table.querySelectorAll("tr");
+                rows.forEach((row, idx) => {
+                    const cells = row.querySelectorAll("td");
+                    if (cells.length > 0) {
+                        const predictionCell = cells[12]; // adjust if needed
+                        const eqTempCell = cells[7]; // adjust if needed
+                        console.log(eqTempCell);
+                        
+                        const td = document.createElement("td");
+                        const btn = document.createElement("button");
+                        btn.className = "planet-btn";
+                        btn.textContent = "🔭 Possible Planet View";
+
+                        if (predictionCell && predictionCell.textContent.trim() !== "FALSE POSITIVE") {
+                            console.log(predictionCell);
+                            
+                            const temp = eqTempCell.textContent.trim();
+                            btn.onclick = () => {
+                                window.location.href = `/planet-view?temp=${temp}`;
+                            };
+                        } else {
+                            btn.disabled = true;
+                        }
+
+                        td.appendChild(btn);
+                        row.appendChild(td);
+                    }
+                });
+            }
+        }, 3000); // 3 seconds delay
+    }
+
+    // Download CSV logic
+    downloadBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+        const table = resultsCard.querySelector("table");
+        if (!table) return;
+
+        let csv = [];
+        const rows = table.querySelectorAll("tr");
+        rows.forEach((row) => {
+            const cols = row.querySelectorAll("th, td");
+            const rowData = [];
+            cols.forEach((col) => {
+                let text = col.textContent.trim();
+                text = text.replace(/,/g, ""); // remove commas in data
+                rowData.push(text);
+            });
+            csv.push(rowData.join(","));
+        });
+
+        const csvString = csv.join("\n");
+        const blob = new Blob([csvString], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "prediction_results.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+});
+</script>
+</body>
+</html>

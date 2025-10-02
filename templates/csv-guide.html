@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ExoLens - CSV Guide</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #ffffff;
+    font-family: "Space Grotesk", sans-serif;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h2, h3 {
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.6);
+}
+
+.guide-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    margin-top: 30px;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+table th, table td {
+    border: 1px solid rgba(255,215,0,0.3);
+    padding: 0.5rem;
+    text-align: left;
+}
+
+table th {
+    background: rgba(255,215,0,0.2);
+    color: #ffd700;
+}
+
+.download-btn {
+    background: #ffd700;
+    color: #000;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    border: none;
+    margin-top: 15px;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+.download-btn:hover {
+    background: #ffbf00;
+    transform: scale(1.05);
+}
+
+footer {
+    margin-top: 2rem;
+    text-align: center;
+    color: rgba(255,255,255,0.6);
+}
+</style>
+</head>
+<body>
+
+<h2>📄 CSV Input Guide</h2>
+
+<div class="guide-card">
+    <p>To get better predictions, your CSV file should have the following columns in order. Each row should represent a single exoplanet candidate:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Column Name</th>
+                <th>Description</th>
+                <th>Example Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>orbital_period</td><td>Orbital period of the planet in days</td><td>9.488</td></tr>
+            <tr><td>transit_duration</td><td>Duration of the transit in hours</td><td>2.9575</td></tr>
+            <tr><td>transit_depth</td><td>Depth of transit in ppm</td><td>615.8</td></tr>
+            <tr><td>planet_radius</td><td>Radius of planet in Earth radii</td><td>2.26</td></tr>
+            <tr><td>snr</td><td>Signal-to-noise ratio</td><td>35.8</td></tr>
+            <tr><td>semi_major_axis</td><td>Semi-major axis in AU</td><td>0.0853</td></tr>
+            <tr><td>stellar_density</td><td>Density of host star in g/cm³</td><td>3.20796</td></tr>
+            <tr><td>equilibrium_temp</td><td>Estimated equilibrium temperature of planet (K)</td><td>793.0</td></tr>
+            <tr><td>inclination</td><td>Orbital inclination in degrees</td><td>89.66</td></tr>
+            <tr><td>stellar_radius</td><td>Radius of host star in solar radii</td><td>0.927</td></tr>
+            <tr><td>stellar_mass</td><td>Mass of host star in solar masses</td><td>0.919</td></tr>
+            <tr><td>impact_parameter</td><td>Transit impact parameter</td><td>0.146</td></tr>
+        </tbody>
+    </table>
+
+    <div class="text-center">
+        <a href="/static/sample_prediction_input.csv" download class="download-btn">
+            <i class="fa-solid fa-download"></i> Download Sample CSV
+        </a>
+    </div>
+</div>
+
+<footer>
+    &copy; 2025 ExoLens. All rights reserved.
+</footer>
+
+</body>
+</html>
