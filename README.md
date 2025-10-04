@@ -1,11 +1,11 @@
 # ExoLense
 
-## Project Summary
+## Project Summary 📝
 ExoLense is a predictive tool designed to identify potential exoplanets based on user-provided astronomical data. Using machine learning models, it processes features like orbital period, transit duration, and transit depth to predict the likelihood of a planet’s presence. This project addresses the challenge of efficiently analyzing large datasets of celestial observations and aids researchers in prioritizing candidate exoplanets for further study.
 
 ---
 
-## Project Details
+## Project Details 🔍
 **What it does / How it works:**  
 ExoLense takes user input of various planetary and stellar features, processes them using a trained machine learning model, and provides a prediction on the likelihood of an exoplanet.  
 
@@ -24,7 +24,7 @@ The project helps in early detection of exoplanets, contributing to space explor
 
 ---
 
-## Tools & Technologies
+## Tools & Technologies 🛠️
 - **Google Docs** – Documentation  
 - **VSCode** – Code editor  
 - **Google Chrome** – Testing web interface  
@@ -40,12 +40,12 @@ The project helps in early detection of exoplanets, contributing to space explor
 ---
 
 
-## User Input Guide
+## User Input Guide 📋
 ExoLense provides a guide for users to correctly input feature data to ensure accurate predictions. Each feature includes descriptive hints, expected units, and example values to prevent incorrect input.
 
 ---
 
-## Installation & Setup
+## Installation & Setup 🚀
 
 1. Clone the repository:
 `git clone https://github.com/isakibul/orion-exolens.git`
