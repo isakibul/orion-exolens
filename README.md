@@ -47,26 +47,26 @@ ExoLense provides a guide for users to correctly input feature data to ensure ac
 
 ## Installation & Setup
 
-1. Clone the repository
+1. Clone the repository:
 git clone https://github.com/isakibul/orion-exolens.git
 
-2. Clone the repository
+2. Clone the repository:
 cd orion-exolens
 
-3. Set up a Python virtual environment
+3. Set up a Python virtual environment:
 python -m venv venv
 
-4. Activate the virtual environment
-Linux/macOS: source venv/bin/activate
+4. Activate the virtual environment:<br>
+Linux/macOS: source venv/bin/activate<br>
 Windows: venv\Scripts\activate
 
-5. Upgrade pip (optional)
+5. Upgrade pip (optional)<br>
 pip install --upgrade pip
 
-6. Install project dependencies
+6. Install project dependencies<br>
 pip install -r requirements.txt
 
-7. Run the Flask application
+7. Run the Flask application<br>
 python app.py
 
 8. Open your browser then navigate to: http://127.0.0.1:5000
